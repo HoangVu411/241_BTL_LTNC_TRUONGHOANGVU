@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAO KE BAO YAGI</title>
+    <style>
+        /* CSS cho ô tìm kiếm */
+        input[type="text"] {
+            width: 100%; /* Chiều rộng 100% của phần tử chứa */
+            max-width: 800px; /* Giới hạn chiều rộng tối đa */
+            height: 50px; /* Chiều cao của ô tìm kiếm */
+            font-size: 18px; /* Kích thước font chữ */
+            padding: 10px; /* Khoảng cách bên trong ô */
+            border: 2px solid #ccc; /* Viền cho ô tìm kiếm */
+            border-radius: 5px; /* Bo tròn góc */
+            box-sizing: border-box; /* Đảm bảo padding được tính vào chiều rộng */
+        }
+
+        /* CSS cho container ô tìm kiếm */
+        form {
+            margin: 20px auto; /* Canh giữa form */
+            width: 90%; /* Chiều rộng 90% của màn hình */
+            max-width: 900px; /* Giới hạn chiều rộng của form */
+        }
+
+        button {
+            padding: 10px 20px; /* Padding cho nút */
+            font-size: 16px; /* Kích thước chữ cho nút */
+            border: none;
+            background-color: #4CAF50; /* Màu nền xanh lá */
+            color: white; /* Màu chữ trắng */
+            border-radius: 5px; /* Bo tròn góc cho nút */
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Màu nền khi hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>VAR SAO KE</h1>
+
+    <!-- Form tìm kiếm -->
+     
+    <form action="/" method="get">
+        <input type="text" name="search" value="" placeholder="Nhập ngày tháng năm/ số tiền / nội dung giao dịch để truy cứu">
+        <button type="submit">Tìm kiếm</button>
+    </form>
+
+    <!-- Hiển thị danh sách giao dịch -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Ngày</th>
+                <th>Số giao dịch</th>
+                <th>Số tiền vào</th>
+                <th>Số tiền ra</th>
+                <th>Nội dung</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="transaction : ${transactions}">
+                <td th:text="${transaction.dateTime}"></td>
+                <td th:text="${transaction.transNo}"></td>
+                <td th:text="${transaction.credit}"></td>
+                <td th:text="${transaction.debit}"></td>
+                <td th:text="${transaction.detail}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Phân trang -->
+    <!-- Phân trang -->
+<div>
+    <!-- Hiển thị "Trang trước" nếu trang hiện tại lớn hơn 1 -->
+    <span th:if="${currentPage > 1}">
+        <a th:href="@{/?search=${search}&page=${currentPage - 1}}">Trang trước</a>
+    </span>
+    
+    <!-- Hiển thị số trang hiện tại và tổng số trang -->
+    <span>Trang <span th:text="${currentPage}"></span> / <span th:text="${totalPages}"></span></span>
+    
+    <!-- Hiển thị "Trang sau" nếu trang hiện tại nhỏ hơn tổng số trang -->
+    <span th:if="${currentPage < totalPages}">
+        <a th:href="@{/?search=${search}&page=${currentPage + 1}}">Trang sau</a>
+    </span>
+</div>
+
