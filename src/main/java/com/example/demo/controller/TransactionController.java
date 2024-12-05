@@ -22,7 +22,7 @@ public class TransactionController {
                        @RequestParam(value = "page", defaultValue = "1") int page) {
     
         // Giới hạn số lượng giao dịch trên mỗi trang
-        int pageSize = 20;
+        int pageSize = 100;
     
         // Kiểm tra nếu page nhỏ hơn 1, set lại thành 1
         if (page < 1) {

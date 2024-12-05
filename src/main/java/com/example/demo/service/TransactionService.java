@@ -28,7 +28,7 @@ public class TransactionService {
             page = 1;
         }
         if (pageSize <= 0) {
-            pageSize = 20;
+            pageSize = 100;
         }
     
         // Nếu từ khóa tìm kiếm là null hoặc rỗng, chỉ lấy giao dịch mới nhất
@@ -189,8 +189,6 @@ public class TransactionService {
     }
     
     
-    
-
     // Kiểm tra xem từ khóa có phải là số không
     private boolean isNumberSearch(String keyword) {
         if (keyword == null) {
