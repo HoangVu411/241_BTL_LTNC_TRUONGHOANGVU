@@ -4,12 +4,13 @@ public class Transaction {
 
     private String dateTime;
     private int transNo;
-    private double credit;
-    private double debit;
+    private int credit;
+    private int debit;
     private String detail;
+   
 
     // Constructor
-    public Transaction(String dateTime, int transNo, double credit, double debit, String detail) {
+    public Transaction(String dateTime, int transNo, int credit, int debit, String detail) {
         this.dateTime = dateTime;
         this.transNo = transNo;
         this.credit = credit;
@@ -34,19 +35,19 @@ public class Transaction {
         this.transNo = transNo;
     }
 
-    public double getCredit() {
+    public int getCredit() {
         return credit;
     }
 
-    public void setCredit(double credit) {
+    public void setCredit(int credit) {
         this.credit = credit;
     }
 
-    public double getDebit() {
+    public int getDebit() {
         return debit;
     }
 
-    public void setDebit(double debit) {
+    public void setDebit(int debit) {
         this.debit = debit;
     }
 
@@ -57,4 +58,6 @@ public class Transaction {
     public void setDetail(String detail) {
         this.detail = detail;
     }
+
+ 
 }

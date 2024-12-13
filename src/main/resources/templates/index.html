@@ -115,6 +115,7 @@
             margin-top: 20px;
         }
 
+        
         .pagination a {
             padding: 8px 15px;
             margin: 0 5px;
@@ -133,6 +134,12 @@
             font-size: 16px;
             margin: 0 10px;
         }
+         
+
+
+        .transaction-count { position: fixed; top: 0; left: 0; padding: 10px; background-color: #f0f0f0; border-top-right-radius: 5px; font-size: 14px; } 
+
+        .no-results { margin-top: 20px; color: rgb(255, 10, 10); font-weight: bold; text-align: center; font-size: 2em; }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -157,12 +164,12 @@
     </style>
 </head>
 <body>
-    <h1>KIỂM TRA SAO KÊ BÃO YAGI</h1>
+    <h1>SAO KÊ ỦNG HỘ BÃO SỐ 3 YAGI</h1>
 
     <!-- Form tìm kiếm -->
     <div class="search-container">
         <form action="/" method="get">
-            <input type="text" name="search" value="" placeholder="Nhập ngày tháng năm/ số tiền / nội dung giao dịch để truy cứu">
+            <input type="text" name="search" th:value="${search}" placeholder="Nhập ngày tháng năm/ số tiền / nội dung giao dịch để truy cứu">
             <button type="submit">Tìm kiếm</button>
         </form>
     </div>
@@ -191,18 +198,56 @@
 
     <!-- Phân trang -->
     <div class="pagination">
-        <!-- Hiển thị "Trang trước" nếu trang hiện tại lớn hơn 1 -->
+        <form action="/" method="get">
+            <!-- Số trang -->
+            <input type="number" name="page" min="1" th:max="${totalPages}" th:value="${currentPage}" placeholder="Nhập số trang" />
+            
+            <!-- Các tham số ẩn -->
+            <input type="hidden" name="search" th:value="${search}" />
+            <input type="hidden" name="pageSize" th:value="${pageSize}" />
+            
+            <!-- Nút Đi đến trang -->
+            <button type="submit">Đi đến trang</button>
+        </form>
+    </div>
+
+        <div>
+            <span>Trang <span th:text="${currentPage}"></span> / <span th:text="${totalPages}"></span></span>
+        </div>
+
+        
+        <!-- Dropdown cho số giao dịch trên mỗi trang -->
+        <div>
+            <form action="/" method="get">
+                <label for="pageSize">Số giao dịch mỗi trang:</label>
+                <input type="hidden" name="search" th:value="${search}" />
+                <select name="pageSize" th:value="${pageSize}" onchange="this.form.submit()">
+                    <option value="10" th:selected="${pageSize == 10}">10 </option>
+                    <option value="20" th:selected="${pageSize == 20}">20 </option>
+                    <option value="30" th:selected="${pageSize == 30}">30 </option>
+                    <option value="50" th:selected="${pageSize == 50}">50 </option>
+                    <option value="100" th:selected="${pageSize == 100}">100 </option>
+                </select>
+            </form>
+        </div>
+
         <span th:if="${currentPage > 1}">
-            <a th:href="@{/?search=${search}&page=${currentPage - 1}}">Trang trước</a>
+            <a th:href="@{/(search=${search},page=${currentPage-1},pageSize=${pageSize})}">Trang trước</a>
         </span>
-        
-        <!-- Hiển thị số trang hiện tại và tổng số trang -->
-        <span>Trang <span th:text="${currentPage}"></span> / <span th:text="${totalPages}"></span></span>
-        
-        <!-- Hiển thị "Trang sau" nếu trang hiện tại nhỏ hơn tổng số trang -->
+
         <span th:if="${currentPage < totalPages}">
-            <a th:href="@{/?search=${search}&page=${currentPage + 1}}">Trang sau</a>
+            <a th:href="@{/(search=${search},page=${currentPage+1},pageSize=${pageSize})}">Trang sau</a>
         </span>
+    </div>
+
+    <!-- Tổng số giao dịch -->
+    <div class="transaction-count">
+        Tổng số giao dịch: <span th:text="${totalTransactions}">0</span>
+    </div>
+
+    <!-- Hiển thị khi không có kết quả -->
+    <div th:if="${noResults}" class="no-results">
+        Không tìm thấy giao dịch theo từ khóa, hãy thử từ khóa khác.
     </div>
 </body>
 </html>
